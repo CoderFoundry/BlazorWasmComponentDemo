@@ -1,8 +1,17 @@
 ﻿
 <div class="d-flex flex-row">
-    <div ><InputCheckbox @bind-Value="Item.IsComplete" @bind-Value:after="updateItem" /></div>
-    <div class="px-2 flex-grow-1 @(Item.IsComplete ? "complete" : "" )">@Item.Name</div>
-    <div><a @onclick="deleteItem"><i class="bi bi-trash-fill text-danger icon"></i></a></div>
+    <div>
+        <InputCheckbox @bind-Value="Item.IsComplete"
+                       @bind-Value:after="HandleComplete" />
+    </div>
+    <div class="px-2 flex-grow-1 @(Item.IsComplete ? "complete" : "" )">
+        @Item.Name
+    </div>
+    <div>
+        <button class="btn btn-link" @onclick="HandleDelete">
+            <i class="bi bi-trash-fill text-danger icon"></i>
+        </button>
+    </div>
 </div>
 
 @code {
@@ -11,21 +20,20 @@
     public TaskerItem? Item { get; set; }
 
     [Parameter]
-    public EventCallback<TaskerItem> OnDeleteCallBack { get; set;}
+    public EventCallback<Guid> OnDeleteCallBack { get; set; }
 
     [Parameter]
-    public EventCallback<TaskerItem> OnChangeCallBack { get; set;}
+    public EventCallback<TaskerItem> OnChangeCallBack { get; set; }
 
-    private async Task updateItem()
-    {  
+    private async Task HandleComplete()
+    {
         await OnChangeCallBack.InvokeAsync(Item);
     }
 
-    private async Task deleteItem()
-   
+    private async Task HandleDelete()
     {
-        await OnDeleteCallBack.InvokeAsync(Item);
+        await OnDeleteCallBack.InvokeAsync(Item.Id);
     }
 
-   
+
 }

@@ -2,7 +2,7 @@
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
 @inject IJSRuntime JS;
-@inject ITaskerService TaskerService;    
+@inject ITaskerService TaskerService;
 
 <div class="d-flex justify-content-center align-items-center h-100">
     <div class="taskform">
@@ -10,20 +10,27 @@
             <img src="/images/Tasker_600.png" width="300" />
         </div>
         <div>
-            <EditForm Model="ti" OnValidSubmit="addItem">
+            <EditForm Model="taskerItem" OnValidSubmit="AddItem">
                 <DataAnnotationsValidator />
                 <div class="d-flex flex-row gap-2">
-                    <InputText @ref=textBoxTask class="form-control" placeholder="Enter a Task" @bind-Value="@ti.Name"></InputText>
+                    <InputText @ref="textBoxTask"
+                               class="form-control"
+                               placeholder="Enter a Task"
+                               @bind-Value="@taskerItem.Name">
+                    </InputText>
                     <button type="submit" class="btn btn-cf-blue">Add</button>
                 </div>
-                <div><ValidationMessage For="() => ti.Name" /></div>
+                <div><ValidationMessage For="() => taskerItem.Name" /></div>
             </EditForm>
         </div>
         <hr />
         <div class="vstack">
             @foreach (var lineItem in taskList)
             {
-                <TaskerLine Item="lineItem" OnDeleteCallBack="@deleteItem" OnChangeCallBack="@updateItem" />
+                <TaskerLine @key="lineItem.Id"
+                            Item="lineItem"
+                            OnDeleteCallBack="@DeleteItem"
+                            OnChangeCallBack="@UpdateItem" />
             }
 
         </div>
@@ -33,45 +40,53 @@
 
 @code {
 
-    private TaskerItem ti = new();
+    private TaskerItem taskerItem = new();
     private List<TaskerItem> taskList = new();
     private InputText? textBoxTask { get; set; }
 
     #region lifecycle events
     protected override async Task OnInitializedAsync()
     {
-       taskList = await TaskerService.GetTaskerItemsAsync();
+        taskList = await TaskerService.GetTaskerItemsAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await textBoxTask!.Element!.Value.FocusAsync();
+            if (textBoxTask?.Element is not null)
+            {
+                await textBoxTask.Element.Value.FocusAsync();
+            }
         }
     }
     #endregion
 
-    private async void addItem()
+    private async Task AddItem()
     {
-        ti.ID = Guid.NewGuid();
-        taskList.Add(ti);
-        ti = new();
+        await TaskerService.AddTaskerItem(taskerItem);
+        taskerItem = new();
 
-        await TaskerService.SaveTaskerItemsAsync(taskList);
-        await textBoxTask!.Element!.Value.FocusAsync();
+        taskList = await TaskerService.GetTaskerItemsAsync();
+
+        if (textBoxTask?.Element is not null)
+        {
+            await textBoxTask.Element.Value.FocusAsync();
+        }
     }
 
-    private async void updateItem(TaskerItem item)
+    private async Task UpdateItem(TaskerItem item)
     {
         await TaskerService.SaveTaskerItemsAsync(taskList);
     }
 
-    private async void deleteItem(TaskerItem item)
+    private async Task DeleteItem(Guid itemId)
     {
-        taskList.Remove(item);
-        await TaskerService.SaveTaskerItemsAsync(taskList);
+        // remove the item
+        await TaskerService.RemoveTaskerItem(itemId);
+        // refresh the list
+        taskList = await TaskerService.GetTaskerItemsAsync();
     }
-      
+
 }
 

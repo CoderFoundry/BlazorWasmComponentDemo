@@ -11,7 +11,22 @@ namespace BlazorWasmComponentDemo.Services
 
     public class TaskerService(IJSRuntime jsRuntime) : ITaskerService
     {
-                       
+        public async Task AddTaskerItem(TaskerItem item)
+        {
+            item.Id = Guid.NewGuid();
+            item.IsComplete = false;
+
+            List<TaskerItem> newTaskList = [.. await GetTaskerItemsAsync(), item];
+            await SaveTaskerItemsAsync(newTaskList);
+        }
+           
+        public async Task RemoveTaskerItem(Guid id)
+        {
+            List<TaskerItem> taskList = await GetTaskerItemsAsync();
+            taskList = taskList.Where(t => t.Id != id).ToList();
+
+            await SaveTaskerItemsAsync(taskList);
+        }
 
         public async Task<List<TaskerItem>> GetTaskerItemsAsync()
         {
