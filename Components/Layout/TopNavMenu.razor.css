@@ -1,0 +1,23 @@
+﻿.navStyle{
+    background-color: var(--cf-theme-850);
+}
+
+.nav-item{
+    --bs-navbar-hover-color: var(--cf-theme-400);
+    --bs-nav-link-hover-color: var(--cf-theme-400);
+}
+
+.dropdown-menu {
+    background-color: var(--cf-theme-900);
+}
+
+.dropdown:has(.nav-link.active) .dropdown-toggle{
+    color: var(--bs-navbar-active-color);
+}
+
+.profile-picture {
+    height: 1.5rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: solid 1px black;
+}
