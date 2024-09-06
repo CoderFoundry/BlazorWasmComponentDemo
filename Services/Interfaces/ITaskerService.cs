@@ -7,6 +7,9 @@ namespace BlazorWasmComponentDemo.Services.Interfaces
         Task<List<TaskerItem>> GetTaskerItemsAsync();
 
         Task SaveTaskerItemsAsync(List<TaskerItem> taskList);
-       
+
+        Task AddTaskerItem(TaskerItem item);
+
+        Task RemoveTaskerItem(Guid id);
     }
 }

@@ -4,7 +4,7 @@ namespace BlazorWasmComponentDemo.Models
 {
     public class TaskerItem
     {
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Every task must have a name")]
         public string? Name { get; set; }
