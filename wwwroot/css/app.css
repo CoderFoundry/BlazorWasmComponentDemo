@@ -1,28 +1,10 @@
-:root {
-    /* fonts */
-    --cf-title-font: 'Bebas Neue', sans-serif;
-    --cf-body-font: 'Montserrat', sans-serif;
-    /* colors */
-    --cf-dark-color: #212121;
-    --cf-light-color: #deeefb;
-    /* text styles */
-    --cf-title-color: var(--cf-dark-color);
-    --cf-font-size: 1rem;
-}
 
-html, body, #app {
-    font-family: var(--cf-body-font);
-    font-size: var(--cf-font-size);
+
+html, body, #app {  
     height: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--cf-title-font);
-}
 
-.h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: var(--cf-title-font);
-}
 
 #app {
     /* min-height: 100vh; */
@@ -119,14 +101,4 @@ code {
 }
 
 
-.mainTitle {
-    font-size: 2rem;
-}
 
-.subTitle {
-    font-size: 1.2rem;
-}
-
-.techStack i {
-    font-size: 3rem;
-}
