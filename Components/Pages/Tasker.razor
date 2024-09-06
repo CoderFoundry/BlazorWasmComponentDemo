@@ -44,6 +44,8 @@
     private List<TaskerItem> taskList = new();
     private InputText? textBoxTask { get; set; }
 
+    private bool focusAfterRender;
+
     #region lifecycle events
     protected override async Task OnInitializedAsync()
     {
@@ -52,11 +54,12 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender || focusAfterRender)
         {
             if (textBoxTask?.Element is not null)
             {
                 await textBoxTask.Element.Value.FocusAsync();
+                focusAfterRender = false;
             }
         }
     }
@@ -65,14 +68,15 @@
     private async Task AddItem()
     {
         await TaskerService.AddTaskerItem(taskerItem);
-        taskerItem = new();
-
         taskList = await TaskerService.GetTaskerItemsAsync();
 
-        if (textBoxTask?.Element is not null)
-        {
-            await textBoxTask.Element.Value.FocusAsync();
-        }
+        taskerItem = new();
+
+        // tell the textbox to be focused after the render
+        focusAfterRender = true;
+
+        // FocusAsync needs to happen in OnAfterRender because the textbox will 
+        // re-render after this method, which prevents FocusAsync from working correctly
     }
 
     private async Task UpdateItem(TaskerItem item)
