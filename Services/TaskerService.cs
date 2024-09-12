@@ -12,15 +12,9 @@ namespace BlazorWasmComponentDemo.Services
     /// <summary>
     /// Service for managing tasker items.
     /// </summary>
-    public class TaskerService : ITaskerService
+    public class TaskerService(IJSRuntime jsRuntime) : ITaskerService
     {
-        private readonly IJSRuntime _jsRuntime;
-
-        public TaskerService(IJSRuntime jsRuntime)
-        {
-            _jsRuntime = jsRuntime;
-        }
-
+       
         /// <summary>
         /// Adds a new tasker item.
         /// </summary>
@@ -56,7 +50,7 @@ namespace BlazorWasmComponentDemo.Services
         {
             try
             {
-                string? taskListState = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "TaskerList") ?? "[]";
+                string? taskListState = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "TaskerList") ?? "[]";
                 List<TaskerItem> taskList = JsonSerializer.Deserialize<List<TaskerItem>>(taskListState)!;
                 return taskList;
             }
@@ -75,7 +69,7 @@ namespace BlazorWasmComponentDemo.Services
         public async Task SaveTaskerItemsAsync(List<TaskerItem> taskList)
         {
             string? taskListState = JsonSerializer.Serialize(taskList);
-            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "TaskerList", taskListState);
+            await jsRuntime.InvokeVoidAsync("localStorage.setItem", "TaskerList", taskListState);
         }
     }
 }

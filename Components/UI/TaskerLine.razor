@@ -1,5 +1,5 @@
 ﻿
-<div class="d-flex flex-row">
+<div class="d-flex flex-row align-items-center">
     <div>
         <InputCheckbox @bind-Value="Item.IsComplete"
                        @bind-Value:after="HandleComplete" />
@@ -9,7 +9,7 @@
     </div>
     <div>
         <button class="btn btn-link" @onclick="HandleDelete">
-            <i class="bi bi-trash-fill text-danger icon"></i>
+            <i class="bi bi-trash-fill text-danger trashIcon"></i>
         </button>
     </div>
 </div>

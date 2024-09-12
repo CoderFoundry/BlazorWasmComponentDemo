@@ -118,13 +118,15 @@ a.btn-cf-orange {
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-.btn-cf-orange:hover,
-a.btn-cf-orange:hover {
-    border-color: var(--cf-light-color);
-    border-width: 1px;
-    border-style: solid;
-    color: var(--cf-light-color);
-}
+    .btn-cf-orange:hover,
+    a.btn-cf-orange:hover {
+        border-color: var(--cf-light-color);
+        border-width: 1px;
+        border-style: solid;
+        font-weight: bold;
+        color: var(--cf-dark-color);
+        /*color: var(--cf-light-color);*/
+    }
 
 .btn-cf-orange:focus,
 .btn-cf-orange:active,
