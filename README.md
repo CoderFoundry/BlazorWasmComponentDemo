@@ -16,7 +16,7 @@ In this project, we explore various techniques and best practices for creating B
 
 Check out the demo on YouTube to see the components in action:
 
-[![Blazor Components Demo](https://img.youtube.com/vi/YPkt3hEHaLHc/0.jpg)](https://www.youtube.com/watch?v=Pkt3hEHaLHc)
+[![Blazor Components Demo](https://img.youtube.com/vi/Pkt3hEHaLHc/0.jpg)](https://www.youtube.com/watch?v=Pkt3hEHaLHc)
 
 ## Getting Started
 
